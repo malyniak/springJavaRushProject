@@ -1,0 +1,34 @@
+
+db:
+  username: root
+  password: 12345678
+  driver: com.mysql.jdbc.Driver
+  url: localhost:3306
+spring:
+  application:
+    name : springJRproj
+  mvc:
+    view:
+      suffix: .jsp
+      prefix : /WEB-INF/views/
+  profiles:
+    active: qa
+  datasource :
+    url : jdbc:mysql://localhost:3306/todo
+    username : root
+    password : 12345678
+    driver-class-name : com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql : true
+    hibernate :
+      ddl-auto : update
+
+logging :
+  file:
+    name : myfile.log
+    path : /
+  level:
+    root : info
+
+server:
+  port : 8090
