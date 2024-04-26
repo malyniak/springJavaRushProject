@@ -1,5 +1,6 @@
 package com.study.springjrproj.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -22,5 +23,9 @@ import org.springframework.stereotype.Component;
 //        }
 //)
 public class AppConfig {
+    @Bean
+    public ModelMapper getModelMapper() {
+        return new ModelMapper();
+    }
 }
 

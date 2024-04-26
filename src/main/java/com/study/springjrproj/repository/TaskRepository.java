@@ -9,10 +9,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
 
+
+
     @Query(value = "update Task t set t.status = :description")
     Task updateBy(String description);
 
     @Query(value = "update Task t set t.status = :status")
     Task updateBy(Status status);
+
+
 
 }
