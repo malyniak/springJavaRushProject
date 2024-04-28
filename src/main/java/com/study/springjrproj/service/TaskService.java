@@ -6,17 +6,17 @@ import com.study.springjrproj.dto.TaskDto;
 import com.study.springjrproj.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TaskService {
     private final TaskRepository taskRepository;
     private final ModelMapper mapper;
@@ -32,12 +32,18 @@ public class TaskService {
             .stream().map(task -> mapper.map(task, TaskDto.class))
             .collect(Collectors.toList());
     }
+    public Optional<TaskDto> getById(Integer id) {
+        return Optional.ofNullable(taskRepository.findById(id)
+                .map(task -> mapper.map(task, TaskDto.class))
+                .orElseThrow(() -> new RuntimeException())); //todo custom exception 29.04
+    }
 
     public void addTask(CreateTaskDto task) {
       taskRepository.save(mapper.map(task, Task.class));
     }
     public void update(TaskDto taskDto) {
-        //todo
+        var task = mapper.map(taskDto, Task.class);
+        taskRepository.save(task);
     }
     public void deleteById(Integer id) {
         var maybeTask = taskRepository.findById(id);

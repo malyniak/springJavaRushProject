@@ -4,15 +4,41 @@
 
 <head>
     <title>Good Thymes Virtual Grocery</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 </head>
 
 <body>
+<div class="table-container">
+    <table class="task-table">
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        <tr th:each="task : ${tasks}">
+            <td th:text="${task.id}"> Id </td>
+            <td th:text="${task.description}"> Description </td>
+            <td th:text="${task.status}"> Status </td>
+            <td>
+                <a th:href="@{tasks/edit/{id}(id=${task.id})}" class="btn btn-primary">Edit</a>
+            </td>
+            <td>
+                <form th:action="@{/tasks/delete/{id}(id=${task.id})}" th:object="${task}" method="post">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
 
-<tr th:each="task : ${tasks}">
-    <td th:text="${task}"> Task </td>
-</tr>
+        </tr>
+    </table>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 
