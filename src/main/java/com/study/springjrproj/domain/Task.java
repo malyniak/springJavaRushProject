@@ -16,4 +16,7 @@ public class Task {
     @Column(nullable = false)
     private String description;
     private Status status;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users user;
 }

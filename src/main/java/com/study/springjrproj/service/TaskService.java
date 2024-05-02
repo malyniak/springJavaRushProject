@@ -1,8 +1,10 @@
 package com.study.springjrproj.service;
 
+import com.study.springjrproj.domain.Status;
 import com.study.springjrproj.domain.Task;
 import com.study.springjrproj.dto.CreateTaskDto;
 import com.study.springjrproj.dto.TaskDto;
+import com.study.springjrproj.exception.TaskNotFoundException;
 import com.study.springjrproj.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -35,11 +37,7 @@ public class TaskService {
     public Optional<TaskDto> getById(Integer id) {
         return Optional.ofNullable(taskRepository.findById(id)
                 .map(task -> mapper.map(task, TaskDto.class))
-                .orElseThrow(() -> new RuntimeException())); //todo custom exception 29.04
-    }
-
-    public void addTask(CreateTaskDto task) {
-      taskRepository.save(mapper.map(task, Task.class));
+                .orElseThrow(() -> new TaskNotFoundException("Task with" +id +" not found")));
     }
     public void update(TaskDto taskDto) {
         var task = mapper.map(taskDto, Task.class);
@@ -48,5 +46,10 @@ public class TaskService {
     public void deleteById(Integer id) {
         var maybeTask = taskRepository.findById(id);
         maybeTask.ifPresent(taskRepository::delete);
+        maybeTask.orElseThrow(() -> new TaskNotFoundException("sda"));
+    }
+    public void save(CreateTaskDto createTaskDto) {
+        var task = mapper.map(createTaskDto, Task.class);
+        taskRepository.save(task);
     }
 }

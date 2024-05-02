@@ -11,7 +11,11 @@
     <input type="text" id="description" th:field="*{description}" required>
     <br>
     <label for="status">Status:</label>
-    <input type="text" id="status" th:field="*{status}" required>
+    <select id="status" name="status" th:field="*{status}">
+        <option value="IN_PROGRESS">In progress</option>
+        <option value="DONE">Done</option>
+        <option value="PAUSED">Paused</option>
+    </select>
     <br>
     <button type="submit">Save Changes</button>
 </form>
