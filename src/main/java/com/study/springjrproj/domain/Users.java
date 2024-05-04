@@ -4,11 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
@@ -24,9 +21,4 @@ public class Users {
     private String email;
     @Column(name = "birth_date")
     private LocalDate birthDate;
-
-//    @OneToMany
-//    @JoinColumn(name = "user_id")
-//    @Column(name = "user_id")
-//    private List<Task> tasks=new ArrayList<>();
 }

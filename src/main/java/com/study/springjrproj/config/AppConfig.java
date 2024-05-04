@@ -1,31 +1,21 @@
 package com.study.springjrproj.config;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.*;
-import org.springframework.context.annotation.ComponentScan.Filter;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Pageable;
 
 @Configuration
-//@PropertySource("classpath:application.yaml")
-//@ComponentScan(basePackages = "org.example",
-//        resourcePattern = "**/*.class",
-//        useDefaultFilters = false,
-//        includeFilters = {
-//                @Filter(type = FilterType.ANNOTATION,
-//                        value = Component.class),
-//                @Filter(type = FilterType.ASSIGNABLE_TYPE,
-//                        value = CompanyRepository.class),
-//                @Filter(type = FilterType.REGEX,
-//                        pattern = "org\\..Repository"),
-//        }
-//)
+
 public class AppConfig {
     @Bean
     public ModelMapper getModelMapper() {
         return new ModelMapper();
+    }
+
+    @Bean
+    public Pageable getPageable() {
+        return Pageable.ofSize(4);
     }
 }
 

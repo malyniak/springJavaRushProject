@@ -6,11 +6,17 @@ import com.study.springjrproj.dto.TaskDto;
 import com.study.springjrproj.exception.TaskNotFoundException;
 import com.study.springjrproj.service.TaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,10 +25,16 @@ public class TaskController {
     private final TaskService taskService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getAllTasks(Model model) {
-
-        var tasks = taskService.findAll();
-        model.addAttribute("tasks", tasks);
+    public String getAllTasks(Model model,
+                              @RequestParam(defaultValue = "0", required = false) int page,
+                              @RequestParam(defaultValue = "5", required = false) int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        var allTasks = taskService.findAll();
+        var tasksPerPage = taskService.findAllBy(pageable);
+        var totalPages = tasksPerPage.getTotalPages();
+        model.addAttribute("tasksPerPage", tasksPerPage);
+        model.addAttribute("allTasks", allTasks);
+        model.addAttribute("pageable", pageable);
         return "tasks";
     }
 

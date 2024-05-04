@@ -1,6 +1,5 @@
 package com.study.springjrproj.service;
 
-import com.study.springjrproj.domain.Status;
 import com.study.springjrproj.domain.Task;
 import com.study.springjrproj.dto.CreateTaskDto;
 import com.study.springjrproj.dto.TaskDto;
@@ -8,6 +7,7 @@ import com.study.springjrproj.exception.TaskNotFoundException;
 import com.study.springjrproj.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,25 +29,29 @@ public class TaskService {
         return taskDtoStream
                 .collect(Collectors.toList());
     }
-    public List<TaskDto> findAll(Pageable pageable) {
-    return taskRepository.findAll(pageable)
-            .stream().map(task -> mapper.map(task, TaskDto.class))
-            .collect(Collectors.toList());
+
+    public Page<TaskDto> findAllBy(Pageable pageable) {
+        var tasks = taskRepository.findAll(pageable);
+        return tasks.map(task -> mapper.map(task, TaskDto.class));
     }
+
     public Optional<TaskDto> getById(Integer id) {
         return Optional.ofNullable(taskRepository.findById(id)
                 .map(task -> mapper.map(task, TaskDto.class))
-                .orElseThrow(() -> new TaskNotFoundException("Task with" +id +" not found")));
+                .orElseThrow(() -> new TaskNotFoundException("Task with" + id + " not found")));
     }
+
     public void update(TaskDto taskDto) {
         var task = mapper.map(taskDto, Task.class);
         taskRepository.save(task);
     }
+
     public void deleteById(Integer id) {
         var maybeTask = taskRepository.findById(id);
         maybeTask.ifPresent(taskRepository::delete);
         maybeTask.orElseThrow(() -> new TaskNotFoundException("sda"));
     }
+
     public void save(CreateTaskDto createTaskDto) {
         var task = mapper.map(createTaskDto, Task.class);
         taskRepository.save(task);

@@ -19,7 +19,7 @@
             <th>Edit</th>
             <th>Delete</th>
         </tr>
-        <tr th:each="task : ${tasks}">
+        <tr th:each="task : ${tasksPerPage}">
             <td th:text="${task.id}"> Id </td>
             <td th:text="${task.description}"> Description </td>
             <td th:text="${task.status}"> Status </td>
@@ -35,9 +35,19 @@
         </tr>
     </table>
     <br>
+
+    <div th:if="${tasksPerPage.totalPages>1}">
+        <span th:each="pageNumber : ${#numbers.sequence(0, tasksPerPage.totalPages - 1)}">
+            <a th:href="@{'/tasks?page='+${pageNumber}}"><span th:text="${pageNumber+1}"></span> </a>
+        </span>
+    </div>
+
+
+    <br>
     <form th:action="@{/tasks/create}"  method="get">
         <button type="submit" class="create-button">Create new task</button>
     </form>
+
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
