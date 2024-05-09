@@ -1,5 +1,6 @@
 package com.study.springjrproj.config;
 
+import com.study.springjrproj.repository.TaskRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,11 +12,6 @@ public class AppConfig {
     @Bean
     public ModelMapper getModelMapper() {
         return new ModelMapper();
-    }
-
-    @Bean
-    public Pageable getPageable() {
-        return Pageable.ofSize(4);
     }
 }
 

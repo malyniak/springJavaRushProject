@@ -1,0 +1,7 @@
+spring :
+  jpa :
+    hibernate :
+      ddl-auto : update
+  datasource :
+    username : root
+    password : 12345678

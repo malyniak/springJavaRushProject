@@ -9,8 +9,8 @@ spring:
     name : springJRproj
   mvc:
     view:
-      suffix: .jsp
-      prefix : /WEB-INF/views/
+      suffix: .html
+
   profiles:
     active: qa
   datasource :
